@@ -1,0 +1,49 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2021 Rockchip Electronics Co., Ltd.
+ *
+ */
+
+/dts-v1/;
+
+#include "rk3588-neardi-linux-ld160-x0.dtsi"
+#include "rk3588-linux.dtsi"
+//#include "rk3588-neardi-linux-ld160-imx258.dtsi"
+//#include "rk3588-neardi-linux-ld160-mipi2lvds.dtsi" //vp3
+#include "rk3588-neardi-linux-ld160-mipi2lvds-EV101WXM-N10.dtsi" //vp3
+#include "rk3588-neardi-linux-ld160-mipi2hdmi.dtsi" //vp2 ,conflict  hdmi0-8k
+#include "rk3588-neardi-linux-ld160-dp-splite.dtsi"  //dp1-vp1 ,mode select
+#include "rk3588-neardi-linux-ld160-hdmi-splite.dtsi" //vp0-hdmi0/hdmi1
+#include "rk3588-neardi-linux-ld160-typec2dp.dtsi"  //dp0-vp1
+#include "rk3588-neardi-linux-ld160-hdmiin.dtsi"
+//#include "rk3588-neardi-linux-ld160-n4.dtsi"
+//#include "rk3588-neardi-linux-ld160-ov48c40.dtsi"
+#include "rk3588-neardi-linux-ld160-lj160.dtsi"
+//#include "rk3588-neardi-linux-ld160-ov13855-os04a10-dphy0.dtsi"  //dphy0
+//#include "rk3588-neardi-linux-ld160-ov13855-os04a10-dphy1.dtsi"  //dphy1
+/ {
+	model = "Rockchip RK3588 NEARDI LPA3588 Board";
+	compatible = "neardi,lpa3588-linux", "rockchip,rk3588";
+
+		vcc_powerout: vcc-powerout-regulator {
+		 status="okay";
+		compatible = "regulator-fixed";
+		gpio = <&gpio1 RK_PB2 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&powerout_pwr>;
+		regulator-name = "vcc_powerout";
+		enable-active-high;
+		regulator-always-on;
+		regulator-boot-on;
+	};
+};
+
+&pinctrl {
+	powerout {
+			powerout_pwr: powerout-pwr {
+				rockchip,pins =
+					<1 RK_PB2 RK_FUNC_GPIO &pcfg_output_high>;
+			};
+		};
+};
+

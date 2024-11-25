@@ -1,0 +1,50 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2021 Rockchip Electronics Co., Ltd.
+ *
+ */
+ 
+ / {
+	model = "Rockchip RK3588 DP Board";
+	compatible = "rockchip,rk3588-neardi-linux-ld160-hdmiin", "rockchip,rk3588";
+		hdmiin_dc: hdmiin-dc {
+			compatible = "rockchip,dummy-codec";
+		#sound-dai-cells = <0>;
+	};
+	
+	hdmiin-sound {
+		compatible = "simple-audio-card";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,name = "rockchip,hdmiin";
+		simple-audio-card,bitclock-master = <&dailink0_master>;
+		simple-audio-card,frame-master = <&dailink0_master>;
+		status = "okay";
+		simple-audio-card,cpu {
+			sound-dai = <&i2s7_8ch>;
+		};
+		dailink0_master: simple-audio-card,codec {
+			sound-dai = <&hdmiin_dc>;
+		};
+	};
+	};
+ 
+/* Should work with at least 128MB cma reserved above. */
+&hdmirx_ctrler {
+	status = "disabled";
+	/* Effective level used to trigger HPD: 0-low, 1-high */
+	hpd-trigger-level = <1>;
+	//hdmirx-det-gpios = <&gpio2 13 GPIO_ACTIVE_LOW>;
+	hdmirx-det-gpios = <&gpio1 RK_PD5 GPIO_ACTIVE_LOW>;	
+};
+
+
+
+
+
+
+
+
+
+
+
+

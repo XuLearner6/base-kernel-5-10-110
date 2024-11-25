@@ -1,0 +1,1 @@
+obj-$(CONFIG_CRYPTO_STSAFEA110) := stsafea110.o

@@ -1,0 +1,87 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2021 Rockchip Electronics Co., Ltd.
+ *
+ */
+
+ / {
+	model = "Rockchip RK3588 DP Board";
+	compatible = "rockchip,rk3588-lz160Update-hdmi", "rockchip,rk3588";
+
+	hdmi0_sound: hdmi0-sound {
+		status = "disabled";
+		compatible = "rockchip,hdmi";
+		rockchip,mclk-fs = <128>;
+		rockchip,card-name = "rockchip-hdmi0";
+		rockchip,cpu = <&i2s5_8ch>;
+		rockchip,codec = <&hdmi0>;
+		rockchip,jack-det;
+	};
+
+	hdmi1_sound: hdmi1-sound {
+		status = "disabled";
+		compatible = "rockchip,hdmi";
+		rockchip,mclk-fs = <128>;
+		rockchip,card-name = "rockchip-hdmi1";
+		rockchip,cpu = <&i2s6_8ch>;
+		rockchip,codec = <&hdmi1>;
+		rockchip,jack-det;
+	};
+
+	};
+
+&hdmi0 {
+	enable-gpios = <&gpio4 RK_PB1 GPIO_ACTIVE_HIGH>;
+        /**
+         * gpio3 RK_PC4 was used as usb3.0 host2 power enable pin, here comment hdmim0_tx0_cec
+         */
+        pinctrl-0 = </*&hdmim0_tx0_cec*/ &hdmim0_tx0_hpd &hdmim0_tx0_scl &hdmim0_tx0_sda>;
+	status = "disabled";
+};
+
+&hdmi0_in_vp0 {
+	status = "disabled";
+};
+
+&hdmi0_sound {
+	status = "disabled";
+};
+
+&hdptxphy_hdmi0 {
+	status = "disabled";
+};
+
+&hdmi1 {
+	enable-gpios = <&gpio4 RK_PB2 GPIO_ACTIVE_HIGH>;
+	/**
+         * gpio4 RK_PC1 is used as usb3.0 host2 reset pin, so comment hdmim2_tx1_cec settings here
+         */
+	pinctrl-0 = </*&hdmim2_tx1_cec*/ &hdmim0_tx1_hpd &hdmim1_tx1_scl &hdmim1_tx1_sda>;
+	status = "disabled";
+};
+
+&hdmi1_in_vp1 {
+	status = "disabled";
+};
+
+&hdmi1_sound {
+	status = "disabled";
+};
+
+&hdptxphy_hdmi1 {
+	status = "disabled";
+};
+
+
+&route_hdmi0 {
+    status = "disabled";
+};
+
+
+
+
+
+
+
+
+

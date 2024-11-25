@@ -1,0 +1,8 @@
+menuconfig CRYPTO_STSAFEA110
+    tristate "STSAFE-A110 Crypto Driver"
+    depends on I2C
+    help
+      This enables the STSAFE-A110 cryptographic chip driver.
+
+      Say M here to compile the driver as a module, or Y to statically
+      compile it into the kernel.

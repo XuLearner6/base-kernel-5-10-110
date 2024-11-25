@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2021 Rockchip Electronics Co., Ltd.
+ *
+ */
+
+/ {
+};
+
+		&aw9523_pinctrl {
+			gpio-controller;
+			#gpio-cells = <2>;
+			compatible = "awinic,aw9523-pinctrl";
+			pinctrl-names = "default";
+			pinctrl-0 = <&aw9523_gpio1_pwrdn>,<&aw9523_gpio2_pwrdn>;
+
+			aw9523pinctrl{
+				aw9523_gpio1_pwrdn: aw9523_gpio1_pwrdn {
+					pins = "gpio_1";
+					function = "pin_fun0";
+				};
+
+				aw9523_gpio2_pwrdn: aw9523_gpio2_pwrdn {
+					pins = "gpio_2";
+					function = "pin_fun1";
+				};
+			};
+		};
+

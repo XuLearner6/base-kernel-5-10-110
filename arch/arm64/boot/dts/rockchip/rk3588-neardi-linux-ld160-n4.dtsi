@@ -1,0 +1,354 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2022 Rockchip Electronics Co., Ltd.
+ *
+ */
+ /{
+	vcc_n430: vcc-n430-regulator {
+		 status="okay";
+		compatible = "regulator-fixed";
+		gpio = <&gpio1 RK_PA7 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&n430_pwr>;
+		regulator-name = "vcc_n430";
+		enable-active-high;
+		regulator-always-on;
+		regulator-boot-on;
+	};
+
+	vcc_n431: vcc-n431-regulator {
+	   status="okay";
+		compatible = "regulator-fixed";
+		gpio = <&gpio1 RK_PB0 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&n431_pwr>;
+		regulator-name = "vcc_n431";
+		enable-active-high;
+		regulator-always-on;
+		regulator-boot-on;
+	};
+
+	jaguar131_rst_boot: jaguar131-rst-boot {
+                status="okay";
+               compatible = "regulator-fixed";
+               gpio = <&gpio1 RK_PB1 GPIO_ACTIVE_HIGH>;
+               regulator-name = "boot_n431rst";
+               enable-active-high;
+               regulator-always-on;
+               regulator-boot-on;
+       };
+ };
+
+ /**********  dcphy0 && dcphy1  ************/
+
+&rkcif {
+	status = "okay";
+};
+
+&rkcif_mmu {
+	status = "okay";
+};
+
+
+
+/**********   dcphy0  ************/
+
+// N4_PWREN_A: EXTIO_P1_1 -> gpio502
+
+ &i2c2 {
+	status = "okay";
+	i2c-scl-rising-time-ns = <600>;
+	i2c-scl-falling-time-ns = <20>;
+
+jaguar130: jaguar1@30 {
+		compatible = "jaguar1-v4l2";
+		status = "okay";
+		reg = <0x30>;
+		clocks = <&xin24m>;
+		clock-names = "xvclk";
+		/*
+		 * pd-gpios = <&gpio4 21 GPIO_ACTIVE_HIGH>; // conflict with csi-ctl-gpios
+		 * rst-gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
+		 */
+		rockchip,default_rect= <1920 1080>; // default resolution
+		rst-gpios = <&gpio2 RK_PB6 GPIO_ACTIVE_HIGH>;
+		rockchip,camera-module-index = <0>;
+		rockchip,camera-module-facing = "back";
+		rockchip,camera-module-name = "jaguar130";
+		rockchip,camera-module-lens-name = "jaguar130";
+		port {
+			ucam_out0: endpoint {
+				remote-endpoint = <&mipi_in_ucam0>;
+				data-lanes = <1 2 3 4>;
+			};
+		};
+	};
+};
+
+
+
+
+&csi2_dcphy0 {
+	status = "okay";
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		port@0 {
+			reg = <0>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			mipi_in_ucam0: endpoint@1 {
+				reg = <1>;
+				remote-endpoint = <&ucam_out0>;
+				data-lanes = <1 2 3 4>;
+			};
+		};
+		port@1 {
+			reg = <1>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			csidcphy0_out: endpoint@0 {
+				reg = <0>;
+				remote-endpoint = <&mipi0_csi2_input>;
+			};
+		};
+	};
+};
+
+
+&mipi_dcphy0 {
+	status = "okay";
+	
+};
+
+&mipi0_csi2 {
+	status = "okay";
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@0 {
+			reg = <0>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			mipi0_csi2_input: endpoint@1 {
+				reg = <1>;
+				remote-endpoint = <&csidcphy0_out>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			mipi0_csi2_output: endpoint@0 {
+				reg = <0>;
+				remote-endpoint = <&cif_mipi_in0>;
+			};
+		};
+	};
+};
+
+&rkcif_mipi_lvds {
+	status = "okay";
+
+	port {
+		cif_mipi_in0: endpoint {
+			remote-endpoint = <&mipi0_csi2_output>;
+		};
+	};
+};
+
+&rkisp0 {
+	status = "okay";
+};
+
+&isp0_mmu {
+	status = "okay";
+};
+
+&rkcif_mipi_lvds_sditf {
+	status = "okay";
+
+	port {
+		mipi_lvds_sditf: endpoint {
+			remote-endpoint = <&isp0_vir0>;
+		};
+	};
+};
+
+&rkisp0_vir0 {
+	status = "okay";
+
+	port {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		isp0_vir0: endpoint@0 {
+			reg = <0>;
+			remote-endpoint = <&mipi_lvds_sditf>;
+		};
+	};
+};
+
+
+/**********   dcphy1   ************/
+// N4_PWREN_B: EXTIO_P1_2 -> gpio503
+
+&i2c2 {
+	status = "okay";
+		jaguar131: jaguar1@31 {
+				compatible = "jaguar1-v4l2";
+				status = "okay";
+				reg = <0x31>;
+				clocks = <&xin24m>;
+				clock-names = "xvclk";
+				/*
+				 * pd-gpios = <&gpio4 21 GPIO_ACTIVE_HIGH>; // conflict with csi-ctl-gpios
+				 * rst-gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
+				 */
+				rockchip,default_rect= <1920 1080>; // default resolution
+				//rst-gpios = <&gpio1 RK_PB1 GPIO_ACTIVE_HIGH>;
+				rockchip,camera-module-index = <1>;
+				rockchip,camera-module-facing = "front";
+				rockchip,camera-module-name = "jaguar131";
+				rockchip,camera-module-lens-name = "jaguar131";
+				port {
+					ucam_out1: endpoint {
+						remote-endpoint = <&mipi_in_ucam1>;
+						data-lanes = <1 2 3 4>;
+					};
+				};
+			};
+		};
+
+
+&csi2_dcphy1 {
+	status = "okay";
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		port@0 {
+			reg = <0>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			mipi_in_ucam1: endpoint@1 {
+				reg = <1>;
+				remote-endpoint = <&ucam_out1>;
+				data-lanes = <1 2 3 4>;
+			};
+		};
+		port@1 {
+			reg = <1>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			csidcphy1_out: endpoint@0 {
+				reg = <0>;
+				remote-endpoint = <&mipi1_csi2_input>;
+			};
+		};
+	};
+};
+
+
+&mipi_dcphy1 {
+	status = "okay";
+};
+
+&mipi1_csi2 {
+	status = "okay";
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@0 {
+			reg = <0>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			mipi1_csi2_input: endpoint@1 {
+				reg = <1>;
+				remote-endpoint = <&csidcphy1_out>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			mipi1_csi2_output: endpoint@0 {
+				reg = <0>;
+				remote-endpoint = <&cif_mipi_in1>;
+			};
+		};
+	};
+};
+
+&rkcif_mipi_lvds1 {
+	status = "okay";
+
+	port {
+		cif_mipi_in1: endpoint {
+			remote-endpoint = <&mipi1_csi2_output>;
+		};
+	};
+};
+
+&rkcif_mipi_lvds1_sditf {
+	status = "okay";
+
+	port {
+		mipi1_lvds_sditf: endpoint {
+			remote-endpoint = <&isp1_vir0>;
+		};
+	};
+};
+
+&rkisp1 {
+	status = "okay";
+};
+
+&isp1_mmu {
+	status = "okay";
+};
+
+
+&rkisp1_vir0 {
+	status = "okay";
+
+	port {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		isp1_vir0: endpoint@0 {
+			reg = <0>;
+			remote-endpoint = <&mipi1_lvds_sditf>;
+		};
+	};
+};
+
+/**********    end!  ***********/
+&pinctrl {
+
+n4 {
+		n430_pwr: n430-pwr {
+			rockchip,pins =
+				<1 RK_PA7 RK_FUNC_GPIO &pcfg_output_high>;
+		};
+
+		n431_pwr: n431-pwr {
+			rockchip,pins =
+				<1 RK_PB0 RK_FUNC_GPIO &pcfg_output_high>;
+		};
+		};
+};

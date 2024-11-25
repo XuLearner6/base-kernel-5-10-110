@@ -1,0 +1,130 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2021 Rockchip Electronics Co., Ltd.
+ *
+ */
+
+ / {
+	model = "Rockchip RK3588 DP Board";
+	compatible = "rockchip,rk3588-lz160Update-dp", "rockchip,rk3588";
+
+	dp0_sound: dp0-sound {
+		status = "disabled";
+		compatible = "rockchip,hdmi";
+		rockchip,card-name= "rockchip,dp0";
+		rockchip,mclk-fs = <512>;
+		rockchip,cpu = <&spdif_tx2>;
+		rockchip,codec = <&dp0 1>;
+		rockchip,jack-det;
+	};
+
+
+	dp1_sound: dp1-sound {
+		status = "okay";
+		compatible = "rockchip,hdmi";
+		rockchip,card-name= "rockchip,dp1";
+		rockchip,mclk-fs = <512>;
+		rockchip,cpu = <&spdif_tx5>;
+		rockchip,codec = <&dp1 1>;
+		rockchip,jack-det;
+	};
+
+
+	spdif_tx1_dc: spdif-tx1-dc {
+		status = "disabled";
+		compatible = "linux,spdif-dit";
+		#sound-dai-cells = <0>;
+	};
+
+	spdif_tx1_sound: spdif-tx1-sound {
+		status = "disabled";
+		compatible = "simple-audio-card";
+		simple-audio-card,name = "rockchip,spdif-tx1";
+		simple-audio-card,cpu {
+			sound-dai = <&spdif_tx1>;
+		};
+		simple-audio-card,codec {
+			sound-dai = <&spdif_tx1_dc>;
+		};
+	};
+	};
+
+&usbdp_phy0 {
+	status = "okay";
+};
+
+&usbdp_phy0_dp {
+	status = "okay";
+};
+
+&usbdp_phy0_u3 {
+	status = "okay";
+};
+
+&usbdp_phy1 {
+	rockchip,dp-lane-mux = <2 3>;
+};
+
+
+/***     dp mode   ***/
+#if 1
+//split mode
+
+&dp0 {
+	split-mode;
+	status = "okay";
+};
+
+&dp0_in_vp1 {
+	status = "okay";
+};
+
+&dp1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&dp1_hpd>;
+	hpd-gpios = <&gpio3 RK_PD5 GPIO_ACTIVE_HIGH>;
+	status = "okay";
+};
+
+#else
+
+&dp0 {
+	status = "okay";
+};
+
+&dp0_in_vp1 {
+	status = "okay";
+};
+
+&dp1_in_vp1 {
+	status = "okay";
+};
+
+&dp1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&dp1_hpd>;
+	hpd-gpios = <&gpio3 RK_PD5 GPIO_ACTIVE_HIGH>;
+	status = "okay";
+};
+
+#endif
+
+&pinctrl {
+dp {
+		dp1_hpd: dp1-hpd {
+			//rockchip,pins = <1 RK_PB5 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <3 RK_PD5 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+};
+
+
+
+
+
+
+
+
+
+
+
