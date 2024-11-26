@@ -65,4 +65,5 @@ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
 #ifdef CONFIG_NO_GKI
 EXPORT_SYMBOL(__dma_map_area);
 EXPORT_SYMBOL(__dma_unmap_area);
+EXPORT_SYMBOL(iommu_setup_dma_ops);
 #endif
