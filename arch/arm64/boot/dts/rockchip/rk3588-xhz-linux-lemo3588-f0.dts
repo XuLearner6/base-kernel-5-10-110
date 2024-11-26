@@ -6,7 +6,7 @@
 
 /dts-v1/;
 
-#include "rk3588-zzu-linux-lemo3588-x0.dtsi"
+#include "rk3588-xhz-linux-lemo3588-x0.dtsi"
 #include "rk3588-linux.dtsi"
 //#include "rk3588-neardi-linux-ld160-imx258.dtsi"
 //#include "rk3588-neardi-linux-ld160-mipi2lvds.dtsi" //vp3
