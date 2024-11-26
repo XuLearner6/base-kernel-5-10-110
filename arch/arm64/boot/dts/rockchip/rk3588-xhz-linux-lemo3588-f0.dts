@@ -15,12 +15,18 @@
 //#include "rk3588-neardi-linux-ld160-dp-splite.dtsi"  //dp1-vp1 ,mode select
 //#include "rk3588-neardi-linux-ld160-hdmi-splite.dtsi" //vp0-hdmi0/hdmi1
 // #include "rk3588-neardi-linux-ld160-hdmi-8k.dtsi"
-// #include "rk3588-neardi-linux-ld160-typec2dp.dtsi"  //dp0-vp1
+
+// 2024-11-26 10:37:18 changed by xhz, for open dp 
+#include "rk3588-neardi-linux-ld160-typec2dp.dtsi"  //dp0-vp1
+// 2024-11-26 10:37:18
+
 //#include "rk3588-neardi-linux-ld160-hdmiin.dtsi"
 //#include "rk3588-neardi-linux-ld160-n4.dtsi"
 //#include "rk3588-neardi-linux-ld160-ov48c40.dtsi"
 //#include "rk3588-neardi-linux-ld160-lj160.dtsi"
-// #include "rk3588-neardi-linux-ld160-dp.dtsi"
+// 2024-11-26 10:37:57 changed by xhz, for open dp out
+#include "rk3588-neardi-linux-ld160-dp.dtsi"
+// 2024-11-26 10:37:57
 
 
 #include "rk3588-neardi-linux-ld160-ov13855-os04a10-dphy0.dtsi"  //dphy0
