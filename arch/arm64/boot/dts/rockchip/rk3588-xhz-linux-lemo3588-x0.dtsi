@@ -24,20 +24,6 @@
 //			linux,cma-default;
 //		};
 //	};
-	
-		 leds: leds {
-		compatible = "gpio-leds";
-		status="okay";
-		work_led1: work1 {
-			gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;  //15
-			linux,default-trigger = "heartbeat";
-		};
-		
-		work_led2: work2 {
-			gpios = <&gpio3 RK_PD1 GPIO_ACTIVE_LOW>;  //148
-			linux,default-trigger = "heartbeat";
-		};
-	};
 
 
 	es8388_sound: es8388-sound {
@@ -130,22 +116,23 @@
 		io-channels = <&saradc 3>;
 	};
 
-       leds: leds {
-                compatible = "gpio-leds";
+// 2024-11-29 11:58:21 changed by xhz, for gpio-leds, if the modification is 
+// successful, the node commeneted above will be deleted
+	leds: leds {
+		compatible = "gpio-leds";
+		status = "okay";
 		pinctrl-names = "default";
- 		pinctrl-0 = <&work1_led_pin>, <&work2_led_pin>;
-                status="okay";
+		pinctrl-0 = <&sys_led_pin>, <&usr_led_pin>;
+			sys_led: led-0 {
+				gpios = <&gpio2 RK_PB7 GPIO_ACTIVE_HIGH>;
+				linux,default-trigger = "heartbeat";
+			};
 
-                work_led1: work1 {
-                        gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
-			linux,default-trigger = "heartbeat";
-                };
-
-                work_led2: work2 {
-                        gpios = <&gpio3 RK_PD1 GPIO_ACTIVE_LOW>;
-                        linux,default-trigger = "heartbeat";
-                };
-        };
+			usr_led: led-1 {
+				gpios = <&gpio2 RK_PC0 GPIO_ACTIVE_HIGH>;
+				linux,default-trigger = "heartbeat";
+			};
+	};
 
 	gpio-export {
 		status="okay";
@@ -718,11 +705,11 @@ sdio_pwrseq: sdio-pwrseq {
 
 	leds {
 
-		work1_led_pin: work1_led_pin {
+		sys_led_pin: sys_led_pin {
 			rockchip,pins = <1 RK_PC6 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 
-		work2_led_pin: work2_led_pin {
+		usr_led_pin: usr_led_pin {
 			rockchip,pins = <3 RK_PD1 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
