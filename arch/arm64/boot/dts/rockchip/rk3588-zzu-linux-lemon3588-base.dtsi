@@ -357,7 +357,6 @@
 	status = "okay";
 };
 
-// 4个USB2.0 phy
 &u2phy0_otg {
 	rockchip,typec-vbus-det;
 	status = "okay";
