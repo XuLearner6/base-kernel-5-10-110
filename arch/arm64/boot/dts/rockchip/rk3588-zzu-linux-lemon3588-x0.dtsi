@@ -990,6 +990,14 @@ sdio_pwrseq: sdio-pwrseq {
 	};
 	};
 
+
+// 2025-01-09 09:34:33 changed by xhz, for open the wdt
+&wdt {
+	status = "okay";
+}
+// 2025-01-09 09:34:33
+
+
 &usbdp_phy0 {
 	orientation-switch;
 	svid = <0xff01>;
