@@ -911,6 +911,13 @@ sdio_pwrseq: sdio-pwrseq {
 	};
 	};
 
+// 2025-01-10 19:49:22 changed by xhz, for enable the wdt node
+&wdt {
+	status = "okay";
+};
+// 2025-01-10 19:49:25
+
+
 &usbdp_phy0 {
 	orientation-switch;
 	svid = <0xff01>;

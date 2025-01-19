@@ -5198,7 +5198,7 @@
 		clocks = <0x02 0x6c 0x02 0x6b>;
 		clock-names = "tclk\0pclk";
 		interrupts = <0x00 0x13b 0x04>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	spi@feb00000 {
